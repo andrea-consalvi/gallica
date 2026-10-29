@@ -30,7 +30,7 @@
 
     <section class="step" aria-labelledby="heading2">
       <div class="stephead"><span class="num">2</span><h2 id="heading2">Carica il JSON e prepara il PDF</h2></div>
-      <p>Seleziona il <code>manifest.json</code> salvato sul computer: il programma leggerà tutte le riproduzioni del manoscritto nell’ordine originale.</p>
+      <p>Seleziona il <code>manifest.json</code> salvato sul computer. Per generare il PDF sceglierai una cartella: le immagini verranno salvate lì e riutilizzate se Gallica interrompe il download.</p>
       <div class="upload">
         <label for="manifestFile">Manifest IIIF (.json)</label>
         <input type="file" id="manifestFile" accept=".json,application/json">
@@ -42,21 +42,23 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#174e83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 8 4v5c0 5-3 8-8 9-5-1-8-4-8-9V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
         <div><strong>Qualità originale · massima definizione</strong><p>Immagini IIIF <code>full/full</code> senza ridimensionamento e senza ricompressione JPEG. La risoluzione effettiva dipende da Gallica.</p></div>
       </div>
+      <div class="test-row"><label for="checkPageNo">Verifica una riproduzione (n.)</label><input id="checkPageNo" type="number" min="1" value="1" step="1" disabled></div>
       <div class="buttons">
-        <button id="testFirst" type="button" class="secondary" disabled>Verifica prima immagine</button>
-        <button id="buildPdf" type="button" disabled>Genera PDF originale <span aria-hidden="true">→</span></button>
+        <button id="testFirst" type="button" class="secondary" disabled>Verifica immagine</button>
+        <button id="buildPdf" type="button" disabled>Scarica e genera PDF <span aria-hidden="true">→</span></button>
         <button id="cancel" type="button" class="secondary" hidden>Annulla</button>
       </div>
-      <p class="note">Limite prudenziale: non più di una richiesta di immagine ogni 13 secondi. Per documenti molto grandi, usa Chrome o Edge su computer.</p>
+      <p class="note">Limite prudenziale: non più di una richiesta ogni 13 secondi. <strong>Se il download si interrompe, carica lo stesso manifest e scegli la stessa cartella:</strong> riprenderà dalle immagini mancanti, senza ricominciare da zero. Le immagini originali e il PDF finale vengono conservati nella sottocartella <code>Gallica_…</code>.</p>
       <div id="downloadState" class="state" role="status" aria-live="polite" hidden>
         <strong id="downloadHeading">Stato del download</strong>
         <progress id="progress" max="100" value="0"></progress>
         <p id="downloadStatus"></p>
+        <a id="problemImage" href="#" target="_blank" rel="noopener noreferrer" hidden>Apri l’immagine problematica direttamente in Gallica</a>
       </div>
     </section>
 
     <p class="foot"><strong>Limite tecnico:</strong> un sito ospitato su Render può leggere direttamente le immagini di Gallica soltanto se Gallica autorizza le richieste CORS. Aprire una singola immagine in una scheda non garantisce questa autorizzazione. Se la verifica restituisce «CORS» o «403», il sito non può creare il PDF: usa l’estensione Chrome oppure richiedi accesso autorizzato alla BnF.</p>
-    <p class="foot">Il PDF viene salvato sul tuo computer. Mantieni aperta la pagina fino al completamento. Servizio indipendente dalla Bibliothèque nationale de France: consulta le <a href="https://gallica.bnf.fr/html/und/conditions-dutilisation-des-contenus-de-gallica" target="_blank" rel="noopener noreferrer">condizioni di utilizzo</a>.</p>
+    <p class="foot">Il PDF viene salvato sul tuo computer insieme alle immagini temporanee, che rimangono disponibili per riprendere il lavoro. Mantieni aperta la pagina fino al completamento. Servizio indipendente dalla Bibliothèque nationale de France: consulta le <a href="https://gallica.bnf.fr/html/und/conditions-dutilisation-des-contenus-de-gallica" target="_blank" rel="noopener noreferrer">condizioni di utilizzo</a>.</p>
   </div></main>
 </body>
 </html>

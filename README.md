@@ -1,32 +1,36 @@
-# Gallica PDF Downloader — versione web (interfaccia blu)
+# Gallica PDF Downloader — Web 2.1, con ripresa del download
 
-Una web app da pubblicare su Render come **Static Site**. Gli utenti non devono installare Python o un'estensione. Due operazioni separate:
+Applicazione web statica per GitHub e Render, con interfaccia blu. **Non richiede Python o un'estensione Chrome**. Le immagini vengono richieste da Gallica **direttamente dal browser**, non dal server Render. È necessario Chrome/Edge desktop aggiornato per la gestione delle cartelle sul disco.
 
-1. Incollare un normale link Gallica e premere **Scarica manifest JSON**.
-2. Caricare il manifest sul sito, verificare la prima immagine e premere **Genera PDF originale**.
+## Come usare il programma
 
-Le immagini vengono richieste a Gallica dal **browser**, NON dal server di Render. Il programma tenta di scaricarle con IIIF `full/full` e le inserisce in un unico PDF senza ricomprimere i JPEG. Un download alla volta, con almeno 13 secondi fra le richieste di immagini originali. Il PDF viene scritto progressivamente sul disco (Chrome o Edge su computer).
+1. Incolla un collegamento Gallica e clicca «Scarica manifest JSON». Se non è disponibile il salvataggio automatico per CORS, clicca «Apri manifest in Gallica» e salvalo con Cmd+S o Ctrl+S.
+2. Carica il JSON nella seconda sezione.
+3. Facoltativamente clicca «Verifica prima immagine».
+4. Premi «Scarica e genera PDF» e **scegli una cartella sul computer**, ad esempio `Documenti`. La web app creerà una sottocartella `Gallica_<identificativo>` in cui salverà i JPEG originali, un file `download-info.json` e infine il PDF unico `Gallica_<identificativo>_originale.pdf`.
 
-## Limite importante: CORS e 403
+## Se il download si interrompe, anche alla pagina 22
 
-**Questa app non può garantire lo scaricamento da Gallica.** Se la BnF non consente a pagine web di altri domini di leggere le immagini tramite CORS, oppure restituisce HTTP 403, il browser non può recuperare i dati necessari a costruire il PDF. Aprire una fotografia in una nuova scheda non dimostra che il download via JavaScript sia consentito. Il pulsante **Verifica prima immagine** mostra subito se il metodo funziona.
+**Non cancellare la cartella creata**. Apri nuovamente la pagina, carica lo stesso manifest JSON e premi di nuovo «Scarica e genera PDF». **Seleziona la stessa cartella madre** usata prima (`Documenti`, nell'esempio). Il programma verifica le immagini già presenti, le riutilizza e scarica soltanto quelle mancanti. Alla fine crea **un unico PDF** contenente tutte le riproduzioni.
 
-Il salvataggio automatico del manifest richiede anch'esso CORS. Se fallisce, il programma offre il link **Apri manifest in Gallica**, da salvare manualmente con `Cmd+S` / `Ctrl+S` e caricare al punto 2. In assenza di CORS sulle immagini è necessario usare un'estensione Chrome con permessi per il dominio Gallica, oppure ottenere l'accesso API consentito dalla BnF. **Non basta cambiare hosting.**
+In caso di problemi di rete o CORS temporanei, il downloader esegue ulteriori tentativi con pause progressive. Non supera intenzionalmente cinque richieste di immagini al minuto: è previsto almeno un intervallo di 13 secondi fra richieste. Rispetta le risposte 429 e le eventuali istruzioni `Retry-After` del server. Un rifiuto esplicito 403 non viene ripetuto automaticamente. Dopo un riavvio del browser, la pausa del server può richiedere ulteriore attesa.
 
-## Pubblicazione su GitHub e Render (senza Terminale)
+**Nota sui file:** per poter riprendere download molto lunghi, l'app conserva copie JPEG nella sottocartella. Una volta verificato il PDF finale, puoi eliminare manualmente i JPEG e `download-info.json` se non ti occorrono più; non eliminare il PDF.
 
-1. Estrai lo ZIP e apri il repository GitHub. Carica nella cartella principale: `render.yaml`, `README.md`, `package.json` e **la cartella `site/` con tutti i file al suo interno**. Non caricare soltanto lo ZIP.
-2. Apri https://dashboard.render.com/ e premi **New → Blueprint**.
-3. Seleziona il repository GitHub, ramo `main`; lascia `render.yaml` come Blueprint Path.
-4. Conferma il deploy. Il Blueprint crea un **sito statico**; non serve configurare Python, `requirements.txt` o `gunicorn`.
-5. Apri l'URL fornito da Render. Se il precedente servizio Gallica era un **Web Service Python**, il nuovo Static Site può richiedere la creazione di un servizio separato; non è una modifica in-place del vecchio Web Service.
+## Pubblicazione su GitHub e Render
 
-Alternativa: **New → Static Site**, scegli il repository, Build Command `echo ready`, Publish Directory `site`.
+1. Estrai lo ZIP e carica nel repository GitHub il file `render.yaml`, `README.md`, `package.json` e l'intera cartella `site/` (comprendente `index.html`, `app.js`, `cache.js`, `engine.js`, `styles.css`). I file devono trovarsi nei rispettivi percorsi, non dentro una cartella aggiuntiva.
+2. Se hai già pubblicato la versione web 2.0, **sostituisci i file della cartella `site` e conserva la configurazione Render già funzionante**. Se vuoi creare un nuovo servizio, scegli **New → Blueprint** e lascia `render.yaml` alla radice, oppure scegli un **Static Site** con Publish Directory `site`.
+3. Una volta completato il deploy, aggiorna la pagina con un ricaricamento forzato per evitare file JavaScript in cache.
 
-## Compatibilità
+## Requisiti e limiti
 
-Chrome/Edge desktop aggiornati per il salvataggio progressivo; URL Gallica con `ark:/12148/` e manifest IIIF Presentation v2/v3. Le immagini devono essere JPEG disponibili da `gallica.bnf.fr`. Non è un'applicazione ufficiale BnF. Rispetta le condizioni d'uso delle riproduzioni.
+- Chrome o Edge aggiornato su computer, con supporto `showDirectoryPicker` e accesso in scrittura alla cartella scelta.
+- Risoluzione IIIF `full/full`, JPEG inseriti direttamente nel PDF senza ricompressione.
+- Il programma **non supera blocchi permanenti CORS o 403** della BnF. Un errore `Failed to fetch` può derivare da rete, CORS, limiti temporanei o altro: non è identificabile con certezza dal solo messaggio del browser.
+- La BnF pubblica limiti d'uso per immagini IIIF. Verifica le condizioni d'uso delle riproduzioni su Gallica.
+- Il programma non è affiliato alla BnF e non può garantire la disponibilità delle immagini dal sito Gallica.
 
-## Test locali
+## Test
 
-Se hai Node.js: `npm test` (testa estrazione del manifest e costruzione del PDF, senza contattare Gallica). Le limitazioni CORS vanno verificate nel browser pubblico.
+Con Node.js aggiornato: `npm test`. I test locali verificano il parser del manifest, il PDF e la ripresa con immagini già presenti in una cartella simulata. Non sostituiscono una prova reale di rete con Gallica.
