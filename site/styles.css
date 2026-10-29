@@ -1,0 +1,16 @@
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#233044;background:#f4f7fb;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}
+header{padding:18px 25px;background:#fff;border-bottom:1px solid #e2eaf3}.brand{max-width:800px;margin:auto;color:#174e83;font-size:14px;font-weight:800;letter-spacing:.02em}
+main{max-width:840px;margin:44px auto 30px;padding:0 20px}.panel{background:#fff;border:1px solid #e0e8f2;border-radius:18px;box-shadow:0 14px 38px rgba(24,55,92,.06);padding:40px 46px}
+h1{font-size:clamp(27px,4.5vw,37px);letter-spacing:-.035em;margin:0 0 11px}h2{font-size:20px;margin:0}h3{font-size:15px;margin:0 0 12px}p{line-height:1.57;color:#5b6b80;margin:0}.lead{margin:0 0 27px}
+.badge{display:inline-block;background:#eaf2fc;color:#174e83;border-radius:30px;font-size:12px;font-weight:700;padding:5px 11px;margin-bottom:18px}
+.step{padding:25px 0;border-top:1px solid #e8edf4}.stephead{display:flex;align-items:center;gap:11px;margin-bottom:12px}.num{width:30px;height:30px;flex-shrink:0;background:#174e83;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:750;font-size:14px}
+label{font-weight:700;font-size:14px;display:block;margin:16px 0 10px}input[type=url],input[type=file]{width:100%;font:inherit;background:white;border:1px solid #bacbdc;color:#233044;border-radius:10px;padding:13px 14px}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #8db9e9;outline-offset:3px}.note{font-size:13px;margin:9px 0 0}.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px;align-items:center}
+button,.button-link{font:inherit;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:13px 19px;text-decoration:none;cursor:pointer;background:#174e83;color:#fff;min-height:46px}
+button:hover,.button-link:hover{background:#103b66}button.secondary,.button-link.secondary{background:#eaf2fc;color:#174e83;border-color:#d6e4f5}button.secondary:hover,.button-link.secondary:hover{background:#dbeaf9}button:disabled{opacity:.5;cursor:not-allowed}
+.upload{background:#f8fbff;border:1px dashed #b1c8e4;border-radius:12px;padding:18px;margin-top:20px}.upload label{margin:0 0 8px}.upload p{font-size:13px;margin-bottom:12px}
+.quality{display:flex;gap:12px;align-items:flex-start;background:#f0f6fd;border:1px solid #d5e4f7;border-radius:12px;padding:17px;margin:21px 0 8px}.quality strong{color:#173f68;font-size:14px}.quality p{font-size:13px;margin-top:4px}
+.state{background:#fbfdff;border:1px solid #e1ebf6;padding:16px;margin-top:18px;border-radius:12px}.state p{font-size:14px}.state strong{color:#214363}.success{color:#176341!important}.error{color:#aa2537!important}.warning{color:#935513!important}progress{width:100%;height:12px;accent-color:#174e83;margin:12px 0 8px;display:block}#downloadStatus{white-space:pre-wrap;overflow-wrap:anywhere}
+.foot{font-size:12px;color:#728198;margin-top:20px}.links{margin-top:25px;border-top:1px solid #e7eff8;padding-top:18px}a{color:#17568d}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(max-width:600px){main{margin:20px auto;padding:0 12px}.panel{padding:26px 20px}.buttons button,.buttons a{width:100%}}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#174e83">
+  <title>Gallica PDF Downloader · Risoluzione originale</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header><div class="brand">GALLICA · PDF DOWNLOADER</div></header>
+  <main><div class="panel">
+    <span class="badge">Manoscritti digitalizzati · BnF</span>
+    <h1>Da Gallica a un unico PDF.</h1>
+    <p class="lead">Scarica il manifest IIIF di un manoscritto e crea un PDF di tutte le riproduzioni alla massima risoluzione disponibile. Le immagini vengono recuperate direttamente dal tuo browser, senza passare dai server di Render.</p>
+
+    <section class="step" aria-labelledby="heading1">
+      <div class="stephead"><span class="num">1</span><h2 id="heading1">Inserisci il link e salva il manifest</h2></div>
+      <p>Incolla un normale collegamento Gallica, anche a una singola carta o al visualizzatore IIIF.</p>
+      <label for="manuscriptUrl">Link Gallica</label>
+      <input id="manuscriptUrl" type="url" placeholder="https://gallica.bnf.fr/ark:/12148/btv1b10874323q/f36.item" autocomplete="off" spellcheck="false">
+      <div class="buttons">
+        <button id="saveManifest" type="button">Scarica manifest JSON <span aria-hidden="true">↓</span></button>
+        <a id="openManifest" class="button-link secondary" href="#" target="_blank" rel="noopener noreferrer" hidden>Apri manifest in Gallica</a>
+      </div>
+      <div class="state" id="manifestState" role="status" aria-live="polite" hidden><p id="manifestStatus"></p></div>
+      <p class="note">Se Gallica non permette al sito di leggere automaticamente il JSON, usa «Apri manifest in Gallica» e salvalo con <strong>Cmd + S</strong> (Mac) oppure <strong>Ctrl + S</strong> (Windows), poi passa al punto 2.</p>
+    </section>
+
+    <section class="step" aria-labelledby="heading2">
+      <div class="stephead"><span class="num">2</span><h2 id="heading2">Carica il JSON e prepara il PDF</h2></div>
+      <p>Seleziona il <code>manifest.json</code> salvato sul computer: il programma leggerà tutte le riproduzioni del manoscritto nell’ordine originale.</p>
+      <div class="upload">
+        <label for="manifestFile">Manifest IIIF (.json)</label>
+        <input type="file" id="manifestFile" accept=".json,application/json">
+      </div>
+      <div class="state" id="details" hidden>
+        <strong id="docTitle"></strong><p id="docDetail"></p>
+      </div>
+      <div class="quality">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#174e83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 8 4v5c0 5-3 8-8 9-5-1-8-4-8-9V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <div><strong>Qualità originale · massima definizione</strong><p>Immagini IIIF <code>full/full</code> senza ridimensionamento e senza ricompressione JPEG. La risoluzione effettiva dipende da Gallica.</p></div>
+      </div>
+      <div class="buttons">
+        <button id="testFirst" type="button" class="secondary" disabled>Verifica prima immagine</button>
+        <button id="buildPdf" type="button" disabled>Genera PDF originale <span aria-hidden="true">→</span></button>
+        <button id="cancel" type="button" class="secondary" hidden>Annulla</button>
+      </div>
+      <p class="note">Limite prudenziale: non più di una richiesta di immagine ogni 13 secondi. Per documenti molto grandi, usa Chrome o Edge su computer.</p>
+      <div id="downloadState" class="state" role="status" aria-live="polite" hidden>
+        <strong id="downloadHeading">Stato del download</strong>
+        <progress id="progress" max="100" value="0"></progress>
+        <p id="downloadStatus"></p>
+      </div>
+    </section>
+
+    <p class="foot"><strong>Limite tecnico:</strong> un sito ospitato su Render può leggere direttamente le immagini di Gallica soltanto se Gallica autorizza le richieste CORS. Aprire una singola immagine in una scheda non garantisce questa autorizzazione. Se la verifica restituisce «CORS» o «403», il sito non può creare il PDF: usa l’estensione Chrome oppure richiedi accesso autorizzato alla BnF.</p>
+    <p class="foot">Il PDF viene salvato sul tuo computer. Mantieni aperta la pagina fino al completamento. Servizio indipendente dalla Bibliothèque nationale de France: consulta le <a href="https://gallica.bnf.fr/html/und/conditions-dutilisation-des-contenus-de-gallica" target="_blank" rel="noopener noreferrer">condizioni di utilizzo</a>.</p>
+  </div></main>
+</body>
+</html>
